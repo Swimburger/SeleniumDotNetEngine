@@ -12,7 +12,9 @@ namespace SeleniumConsole
             Console.WriteLine("Installing ChromeDriver");
 
             var chromeDriverInstaller = new ChromeDriverInstaller();
-            await chromeDriverInstaller.Install();
+            var chromeVersion = await chromeDriverInstaller.GetChromeVersion();
+            Console.WriteLine($"Chrome version {chromeVersion} detected");
+            await chromeDriverInstaller.Install(chromeVersion);
 
             Console.WriteLine("ChromeDriver installed");
 
