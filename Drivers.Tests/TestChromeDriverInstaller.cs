@@ -92,6 +92,8 @@ namespace Drivers.Tests
             );
             string output = await process.StandardOutput.ReadToEndAsync();
             await process.WaitForExitAsync();
+            process.Kill(true);
+
             Assert.IsTrue(
                 output.StartsWith("ChromeDriver 88.0.4324"),
                 $"ChromeDriver incorrect version: {output}"

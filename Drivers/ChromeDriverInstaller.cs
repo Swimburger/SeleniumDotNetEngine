@@ -82,6 +82,7 @@ namespace SeleniumDotNetEngine.Drivers
                 string existingChromeDriverVersion = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 await process.WaitForExitAsync();
+                process.Kill(true);
 
                 existingChromeDriverVersion = existingChromeDriverVersion.Split(" ")[1];
                 if (chromeDriverVersion == existingChromeDriverVersion)
@@ -130,6 +131,7 @@ namespace SeleniumDotNetEngine.Drivers
                 );
                 string error = await process.StandardError.ReadToEndAsync();
                 await process.WaitForExitAsync();
+                process.Kill(true);
 
                 if (!string.IsNullOrEmpty(error))
                 {
@@ -167,6 +169,7 @@ namespace SeleniumDotNetEngine.Drivers
                 string output = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 await process.WaitForExitAsync();
+                process.Kill(true);
 
                 if (!string.IsNullOrEmpty(error))
                 {
@@ -191,6 +194,7 @@ namespace SeleniumDotNetEngine.Drivers
                 string output = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 await process.WaitForExitAsync();
+                process.Kill(true);
 
                 if (!string.IsNullOrEmpty(error))
                 {
