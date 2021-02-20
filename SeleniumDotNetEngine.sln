@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drivers", "Drivers\Drivers.csproj", "{E776926D-28E2-4EA1-B910-4183DDC4D4CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drivers", "Drivers\Drivers.csproj", "{E776926D-28E2-4EA1-B910-4183DDC4D4CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drivers.Tests", "Drivers.Tests\Drivers.Tests.csproj", "{ECC51520-F811-4E5E-87F1-853CF9861E26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drivers.Tests", "Drivers.Tests\Drivers.Tests.csproj", "{ECC51520-F811-4E5E-87F1-853CF9861E26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C94F09C1-0711-4013-8B54-99267F706131}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeleniumConsole", "Samples\SeleniumConsole\SeleniumConsole.csproj", "{AEAE381F-51DA-4860-94A3-396A0E7532EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E776926D-28E2-4EA1-B910-4183DDC4D4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +45,26 @@ Global
 		{ECC51520-F811-4E5E-87F1-853CF9861E26}.Release|x64.Build.0 = Release|Any CPU
 		{ECC51520-F811-4E5E-87F1-853CF9861E26}.Release|x86.ActiveCfg = Release|Any CPU
 		{ECC51520-F811-4E5E-87F1-853CF9861E26}.Release|x86.Build.0 = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|x64.Build.0 = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Debug|x86.Build.0 = Debug|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|x64.ActiveCfg = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|x64.Build.0 = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AEAE381F-51DA-4860-94A3-396A0E7532EF} = {C94F09C1-0711-4013-8B54-99267F706131}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A934B00F-67D8-4FEA-9C83-A03287C6E5F6}
 	EndGlobalSection
 EndGlobal
