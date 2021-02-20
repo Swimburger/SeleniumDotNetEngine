@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeleniumDotNetEngine.Drivers;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -70,6 +71,60 @@ namespace Drivers.Tests
             await chromeDriverInstaller.Install();
 
             Assert.IsTrue(File.Exists(chromeDriverPath), $"File not found at: {chromeDriverPath}");
+        }
+
+        [TestMethod]
+        public async Task Should_Install_Chrome_Driver_For_Chrome88_0_4324_182()
+        {
+            var chromeVersion = "88.0.4324.182";
+            var chromeDriverInstaller = new ChromeDriverInstaller();
+            await chromeDriverInstaller.Install(chromeVersion);
+
+            using var process = Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = chromeDriverPath,
+                    ArgumentList = { "--version" },
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true
+                }
+            );
+            string output = await process.StandardOutput.ReadToEndAsync();
+            await process.WaitForExitAsync();
+            Assert.IsTrue(
+                output.StartsWith("ChromeDriver 88.0.4324"),
+                $"ChromeDriver incorrect version: {output}"
+            );
+        }
+
+        [TestMethod]
+        public async Task Should_Skip_Install_Chrome_Driver_For_Chrome()
+        {
+            var chromeVersion = "88.0.4324.182";
+            var chromeDriverInstaller = new ChromeDriverInstaller();
+            await chromeDriverInstaller.Install(chromeVersion);
+            DateTime originalLastModified = File.GetLastWriteTime(chromeDriverPath);
+            await chromeDriverInstaller.Install(chromeVersion);
+            DateTime updatedLastModified = File.GetLastWriteTime(chromeDriverPath);
+
+            // if equal, install was skipped
+            Assert.AreEqual(originalLastModified, updatedLastModified);
+        }
+
+
+        [TestMethod]
+        public async Task Should_Force_Install_Chrome_Driver_For_Chrome()
+        {
+            var chromeVersion = "88.0.4324.182";
+            var chromeDriverInstaller = new ChromeDriverInstaller();
+            await chromeDriverInstaller.Install(chromeVersion);
+            DateTime originalLastModified = File.GetLastWriteTime(chromeDriverPath);
+            await chromeDriverInstaller.Install(chromeVersion, forceDownload: true);
+            DateTime updatedLastModified = File.GetLastWriteTime(chromeDriverPath);
+
+            // if not equal, install was forced
+            Assert.AreNotEqual(originalLastModified, updatedLastModified);
         }
     }
 }
