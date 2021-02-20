@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>SeleniumDotNetEngine.Runners.WebRunner</AssemblyName>
+    <RootNamespace>SeleniumDotNetEngine.Runners.WebRunner</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Drivers\Drivers.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(Configuration)'=='Debug' ">
+    <ProjectReference Include="..\..\Samples\SeleniumTestLibrary\SeleniumTestLibrary.csproj" />
+  </ItemGroup>
+</Project>
