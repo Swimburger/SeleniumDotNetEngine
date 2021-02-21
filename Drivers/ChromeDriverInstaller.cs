@@ -142,7 +142,7 @@ namespace SeleniumDotNetEngine.Drivers
 
         public async Task<string> GetChromeVersion()
         {
-            if (IsWindows)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 string chromePath = (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe", null, null);
                 if (chromePath == null)
