@@ -93,6 +93,8 @@ namespace SeleniumDotNetEngine.Drivers
                 await process.WaitForExitAsync();
                 process.Kill(true);
 
+                // expected output is something like "ChromeDriver 88.0.4324.96 (68dba2d8a0b149a1d3afac56fa74648032bcf46b-refs/branch-heads/4324@{#1784})"
+                // the following line will extract the version number and leave the rest
                 existingChromeDriverVersion = existingChromeDriverVersion.Split(" ")[1];
                 if (chromeDriverVersion == existingChromeDriverVersion)
                 {
@@ -105,8 +107,6 @@ namespace SeleniumDotNetEngine.Drivers
                 }
             }
 
-            var tempFilePath = Path.GetTempFileName();
-
             //   Use the URL created in the last step to retrieve a small file containing the version of ChromeDriver to use. For example, the above URL will get your a file containing "72.0.3626.69". (The actual number may change in the future, of course.)
             //   Use the version number retrieved from the previous step to construct the URL to download ChromeDriver. With version 72.0.3626.69, the URL would be "https://chromedriver.storage.googleapis.com/index.html?path=72.0.3626.69/".
             var driverZipResponse = await httpClient.GetAsync($"{chromeDriverVersion}/{zipName}");
@@ -115,21 +115,18 @@ namespace SeleniumDotNetEngine.Drivers
                 throw new Exception($"ChromeDriver download request failed with status code: {driverZipResponse.StatusCode}, reason phrase: {driverZipResponse.ReasonPhrase}");
             }
 
-            using (var fs = new FileStream(tempFilePath, FileMode.Create))
-            {
-                await driverZipResponse.Content.CopyToAsync(fs);
-            }
-
+            // this reads the zipfile as a stream, opens the archive, 
+            // and extracts the chromedriver executable to the targetPath without saving any intermediate files to disk
+            using (var zipFileStream = await driverZipResponse.Content.ReadAsStreamAsync())
+            using (var zipArchive = new ZipArchive(zipFileStream, ZipArchiveMode.Read))
             using (var chromeDriverWriter = new FileStream(targetPath, FileMode.Create))
-            using (var archive = ZipFile.Open(tempFilePath, ZipArchiveMode.Read))
             {
-                var entry = archive.GetEntry(driverName);
+                var entry = zipArchive.GetEntry(driverName);
                 using Stream chromeDriverStream = entry.Open();
                 await chromeDriverStream.CopyToAsync(chromeDriverWriter);
             }
 
-            File.Delete(tempFilePath);
-
+            // on Linux/macOS, you need to add the executable permission (+x) to allow the execution of the chromedriver
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 using var process = Process.Start(
