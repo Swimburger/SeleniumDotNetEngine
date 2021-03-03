@@ -169,54 +169,68 @@ namespace SeleniumDotNetEngine.Drivers
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                using var process = Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "google-chrome",
-                        ArgumentList = { "--product-version" },
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                    }
-                );
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
-                await process.WaitForExitAsync();
-                process.Kill(true);
-
-                if (!string.IsNullOrEmpty(error))
+                try
                 {
-                    throw new Exception("'google-chrome' command not found");
-                }
+                    using var process = Process.Start(
+                        new ProcessStartInfo
+                        {
+                            FileName = "google-chrome",
+                            ArgumentList = { "--product-version" },
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                        }
+                    );
+                    string output = await process.StandardOutput.ReadToEndAsync();
+                    string error = await process.StandardError.ReadToEndAsync();
+                    await process.WaitForExitAsync();
+                    process.Kill(true);
 
-                return output;
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        throw new Exception(error);
+                    }
+
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred trying to execute 'google-chrome --product-version'", ex);
+                }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                using var process = Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-                        ArgumentList = { "--version" },
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                    }
-                );
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
-                await process.WaitForExitAsync();
-                process.Kill(true);
-
-                if (!string.IsNullOrEmpty(error))
+                try
                 {
-                    throw new Exception("Google Chrome not found on your MacOS machine");
-                }
+                    using var process = Process.Start(
+                        new ProcessStartInfo
+                        {
+                            FileName = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+                            ArgumentList = { "--version" },
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                        }
+                    );
+                    string output = await process.StandardOutput.ReadToEndAsync();
+                    string error = await process.StandardError.ReadToEndAsync();
+                    await process.WaitForExitAsync();
+                    process.Kill(true);
 
-                output = output.Replace("Google Chrome ", "");
-                return output;
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        throw new Exception(error);
+                    }
+
+                    output = output.Replace("Google Chrome ", "");
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred trying to execute '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --version'", ex);
+                }
             }
             else
             {
